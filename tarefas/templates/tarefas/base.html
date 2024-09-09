@@ -6,6 +6,32 @@
     <title>{% block title %}Gerenciamento de Tarefas{% endblock %}</title>
     <!-- CSS do Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- jQuery e jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .kanban-column {
+            min-height: 300px;
+            border: 1px solid #ddd;
+            overflow-y: auto;
+        }
+        .tarefa-card {
+            cursor: move;
+            background-color: #f9f9f9;
+        }
+        .tarefa-card:hover {
+            background-color: #e2e6ea;
+        }
+        .kanban-column {
+            background-color: #f4f6f8;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,8 +55,49 @@
     </div>
 
     <!-- JS do Bootstrap e dependências -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Configurar CSRF Token para AJAX
+            var csrftoken = '{{ csrf_token }}';
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+        });
+
+        $(function() {
+            $(".kanban-column").sortable({
+                connectWith: ".kanban-column",
+                items: ".tarefa-card",
+                placeholder: "ui-state-highlight",
+                update: function(event, ui) {
+                    var tarefaId = ui.item.data("id");
+                    var novoStatus = ui.item.closest(".kanban-column").attr("id");
+
+                    // Atualizar o status da tarefa via AJAX
+                    $.ajax({
+                        url: "{% url 'atualizar_status_tarefa' %}",
+                        method: "POST",
+                        data: {
+                            tarefa_id: tarefaId,
+                            status: novoStatus,
+                            csrfmiddlewaretoken: csrftoken
+                        },
+                        success: function(response) {
+                            console.log("Status atualizado com sucesso.");
+                        },
+                        error: function(error) {
+                            console.error("Erro ao atualizar status.", error);
+                        }
+                    });
+                }
+            }).disableSelection();
+        });
+    </script>
 </body>
 </html>

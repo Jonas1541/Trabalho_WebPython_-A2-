@@ -6,4 +6,5 @@ urlpatterns = [
     path('criar/', views.criar_tarefa, name='criar_tarefa'),
     path('editar/<int:pk>/', views.editar_tarefa, name='editar_tarefa'),
     path('excluir/<int:pk>/', views.excluir_tarefa, name='excluir_tarefa'),
+    path('atualizar_status_tarefa/', views.atualizar_status_tarefa, name='atualizar_status_tarefa'),
 ]

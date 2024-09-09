@@ -11,7 +11,7 @@ class Tarefa(models.Model):
         ('concluida', 'Concluída'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
-    responsavel = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tarefas', default=2)
+    responsavel = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tarefas', default=1)
     
     def __str__(self):
         return self.titulo

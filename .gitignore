@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+venv.bak/
+.env
+*.env
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+/media
+/static
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Ubuntu/Linux
+*.swp
+*.swo
+*.swn
+*.tmp
+*.bak
+*.orig
+*.log
+.DS_Store
+.Trash-*
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini

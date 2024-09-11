@@ -81,7 +81,6 @@
                     data: {
                         tarefa_id: tarefaId,
                         status: novoStatus,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function(response) {
                         console.log("Status atualizado com sucesso.");

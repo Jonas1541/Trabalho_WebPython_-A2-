@@ -58,9 +58,24 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        // Função para capturar o token CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                let cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
         $(document).ready(function() {
-            // Configurar CSRF Token para AJAX
-            var csrftoken = '{{ csrf_token }}';
+            var csrftoken = getCookie('csrftoken');
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {
                     if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type) && !this.crossDomain) {
@@ -86,7 +101,6 @@
                         data: {
                             tarefa_id: tarefaId,
                             status: novoStatus,
-                            csrfmiddlewaretoken: csrftoken
                         },
                         success: function(response) {
                             console.log("Status atualizado com sucesso.");

@@ -64,3 +64,6 @@ def atualizar_status_tarefa(request):
         tarefa.save()
 
         return JsonResponse({'message': 'Status atualizado com sucesso!'})
+    
+def index(request):
+    return render(request, 'index/index.html')

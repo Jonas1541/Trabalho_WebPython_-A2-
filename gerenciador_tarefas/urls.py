@@ -19,7 +19,11 @@ from django.urls import path
 from django.urls import include
 from django.contrib.auth import views as auth_views
 
+from tarefas import views
+
+
 urlpatterns = [
+    path('', views.index, name='index'),
     path('admin/', admin.site.urls),
       path('tarefas/', include('tarefas.urls')),  # Incluindo as URLs do aplicativo tarefas
       path('accounts/login/', auth_views.LoginView.as_view(), name='login'),

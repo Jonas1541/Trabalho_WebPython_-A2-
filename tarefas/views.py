@@ -10,6 +10,7 @@ from .models import Tarefa
 
 @login_required
 def lista_tarefas(request):
+    print("VRAUUUUUUUUUUUU: " + str(request.user))
     tarefas_pendentes = Tarefa.objects.filter(responsavel=request.user, status='pendente')
     tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='em_andamento')
     tarefas_concluidas = Tarefa.objects.filter(responsavel=request.user, status='concluida')
@@ -26,6 +27,8 @@ def criar_tarefa(request):
     if request.method == 'POST':
         form = TarefaForm(request.POST)
         if form.is_valid():
+            tarefa = form.save(commit=False)  # Não salva ainda
+            tarefa.responsavel = request.user  # Atribui o usuário logado
             form.save()
             return redirect('lista_tarefas')
     else:

@@ -14,8 +14,6 @@ class TarefaForm(forms.ModelForm):
                 ('concluida', 'Concluída')
             ])
         }
-        
-        
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     

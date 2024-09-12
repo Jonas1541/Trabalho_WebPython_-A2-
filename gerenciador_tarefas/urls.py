@@ -18,10 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from django.contrib.auth import views as auth_views
-
 from tarefas import views
-
-
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -31,4 +28,5 @@ urlpatterns = [
     path('accounts/logout/', views.custom_logout, name='logout'),
     path('debug-logout-template/', views.debug_logout_template_path, name='debug_logout_template_path'),
     path('register/', views.register, name='register'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

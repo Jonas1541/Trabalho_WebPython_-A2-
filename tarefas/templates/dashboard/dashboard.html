@@ -1,0 +1,100 @@
+{% extends 'tarefas/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Dashboard</h2>
+
+    <canvas id="tasksChart" width="400" height="200"></canvas>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <form method="get" class="d-flex flex-column">
+                    <th>
+                        <input type="text" name="nome" class="form-control" placeholder="Filtrar pelo título" value="{{ filtro_nome }}">
+                    </th>
+                    <th>
+                        <select name="status" class="form-control">
+                            <option value="">Todos os Status</option>
+                            <option value="pendente" {% if filtro_status == "pendente" %}selected{% endif %}>Pendente</option>
+                            <option value="andamento" {% if filtro_status == "andamento" %}selected{% endif %}>Em Andamento</option>
+                            <option value="concluida" {% if filtro_status == "concluida" %}selected{% endif %}>Concluída</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select name="usuario" class="form-control">
+                            <option value="">Todos os Usuários</option>
+                            {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}" {% if filtro_usuario == usuario.id|stringformat:"s" %}selected{% endif %}>{{ usuario.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </th>
+                </form>
+            </tr>
+            <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Responsável</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarefa in tarefas %}
+            <tr>
+                <td>{{ tarefa.titulo }}</td>
+                <td>{{ tarefa.get_status_display }}</td>
+                <td>{{ tarefa.responsavel.username }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhuma tarefa encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Dados para o gráfico
+        const ctx = document.getElementById('tasksChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Pendente', 'Em Andamento', 'Concluída'],
+                datasets: [{
+                    label: 'Número de Tarefas',
+                    data: [
+                        {{ num_pendentes }},
+                        {{ num_andamento }},
+                        {{ num_concluidas }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

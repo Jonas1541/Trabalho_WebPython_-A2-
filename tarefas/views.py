@@ -14,12 +14,13 @@ from django.template import TemplateDoesNotExist
 
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
+from django.contrib.auth.models import User
 
 @login_required
 def lista_tarefas(request):
     print("VRAUUUUUUUUUUUU: " + str(request.user))
     tarefas_pendentes = Tarefa.objects.filter(responsavel=request.user, status='pendente')
-    tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='em_andamento')
+    tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='andamento')
     tarefas_concluidas = Tarefa.objects.filter(responsavel=request.user, status='concluida')
 
     context = {
@@ -34,8 +35,8 @@ def criar_tarefa(request):
     if request.method == 'POST':
         form = TarefaForm(request.POST)
         if form.is_valid():
-            tarefa = form.save(commit=False)  # Não salva ainda
-            tarefa.responsavel = request.user  # Atribui o usuário logado
+            tarefa = form.save(commit=False)
+            tarefa.responsavel = request.user
             form.save()
             return redirect('lista_tarefas')
     else:
@@ -83,7 +84,6 @@ def debug_logout_template_path(request):
     except TemplateDoesNotExist:
         return HttpResponse('Template not found')
 
-
 def custom_logout(request):
     logout(request)
     return render(request, 'registration/logged_out.html')
@@ -93,8 +93,46 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Loga o usuário após o registro
-            return redirect('index')  # Redireciona para a página inicial ou onde desejar
+            login(request, user)
+            return redirect('index')
     else:
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def dashboard(request):
+    # Obter parâmetros de filtro da URL
+    nome = request.GET.get('nome', '')
+    status = request.GET.get('status', '')
+    usuario_id = request.GET.get('usuario', '')
+    
+    tarefas = Tarefa.objects.all()  # Obtém todas as tarefas
+    
+    if nome:
+        tarefas = tarefas.filter(titulo__icontains=nome)
+    if status:
+        tarefas = tarefas.filter(status=status)
+    if usuario_id:
+        tarefas = tarefas.filter(responsavel_id=usuario_id)
+        
+    # Obter lista de usuários para o filtro
+    usuarios = User.objects.all()
+    
+    # Contar o número de tarefas por status
+    num_pendentes = tarefas.filter(status='pendente').count()
+    num_andamento = tarefas.filter(status='andamento').count()
+    num_concluidas = tarefas.filter(status='concluida').count()
+
+    context = {
+        'tarefas': tarefas,
+        'usuarios': usuarios,
+        'num_pendentes': num_pendentes,
+        'num_andamento': num_andamento,
+        'num_concluidas': num_concluidas,
+        'filtro_nome': nome,
+        'filtro_status': status,
+        'filtro_usuario': usuario_id
+    }
+
+    return render(request, 'dashboard/dashboard.html', context)
+

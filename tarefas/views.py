@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.http import HttpResponse
 from .models import Tarefa
 from .forms import TarefaForm
@@ -7,6 +8,12 @@ from .forms import TarefaForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tarefa
+
+from django.template.loader import get_template
+from django.template import TemplateDoesNotExist
+
+from django.contrib.auth import login
+from .forms import UserRegistrationForm
 
 @login_required
 def lista_tarefas(request):
@@ -67,3 +74,27 @@ def atualizar_status_tarefa(request):
     
 def index(request):
     return render(request, 'index/index.html')
+
+def debug_logout_template_path(request):
+    template_name = 'registration/logged_out.html'
+    try:
+        template = get_template(template_name)
+        return HttpResponse(f'Template found at: {template.origin}')
+    except TemplateDoesNotExist:
+        return HttpResponse('Template not found')
+
+
+def custom_logout(request):
+    logout(request)
+    return render(request, 'registration/logged_out.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Loga o usuário após o registro
+            return redirect('index')  # Redireciona para a página inicial ou onde desejar
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})

@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 @login_required
 def lista_tarefas(request):
     tarefas_pendentes = Tarefa.objects.filter(responsavel=request.user, status='pendente')
-    tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='em_andamento')
+    tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='andamento')
     tarefas_concluidas = Tarefa.objects.filter(responsavel=request.user, status='concluida')
 
     context = {
@@ -113,7 +113,7 @@ def dashboard(request):
     usuarios = User.objects.all()
 
     num_pendentes = tarefas.filter(status='pendente').count()
-    num_andamento = tarefas.filter(status='em_andamento').count()
+    num_andamento = tarefas.filter(status='andamento').count()
     num_concluidas = tarefas.filter(status='concluida').count()
 
     context = {

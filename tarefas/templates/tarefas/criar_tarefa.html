@@ -5,25 +5,42 @@
 <div class="container mt-4">
     <h2>Criar Tarefa</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="id_titulo" class="form-label">Título</label>
-            {{ form.titulo }}
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_titulo">Título</label>
+                            <input type="text" name="titulo" id="id_titulo" class="form-control" value="{{ form.titulo.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_descricao">Descrição</label>
+                            <textarea name="descricao" id="id_descricao" class="form-control" rows="3">{{ form.descricao.value }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_status">Status</label>
+                            <select name="status" id="id_status" class="form-control">
+                                {% for value, label in form.status.field.choices %}
+                                <option value="{{ value }}" {% if value == form.status.value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_responsavel">Responsável</label>
+                            <select name="responsavel" id="id_responsavel" class="form-control">
+                                {% for user in form.responsavel.field.queryset %}
+                                <option value="{{ user.id }}" {% if user.id == form.responsavel.value %}selected{% endif %}>{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{% url 'lista_tarefas' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="id_descricao" class="form-label">Descrição</label>
-            {{ form.descricao }}
-        </div>
-        <div class="mb-3">
-            <label for="id_status" class="form-label">Status</label>
-            {{ form.status }}
-        </div>
-        <div class="mb-3">
-            <label for="id_responsavel" class="form-label">Responsável</label>
-            {{ form.responsavel }}
-        </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </form>
+    </div>
 </div>
 {% endblock %}

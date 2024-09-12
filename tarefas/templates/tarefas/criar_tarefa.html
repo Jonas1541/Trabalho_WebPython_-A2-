@@ -1,6 +1,4 @@
 {% extends 'tarefas/base.html' %}
-
-
 {% block title %}Criar Tarefa{% endblock %}
 
 {% block content %}
@@ -9,24 +7,23 @@
 
     <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" class="form-control" required>
+        <div class="mb-3">
+            <label for="id_titulo" class="form-label">Título</label>
+            {{ form.titulo }}
         </div>
-        <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" class="form-control" rows="3" required></textarea>
+        <div class="mb-3">
+            <label for="id_descricao" class="form-label">Descrição</label>
+            {{ form.descricao }}
         </div>
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <select id="status" name="status" class="form-control" required>
-                <option value="pendente">Pendente</option>
-                <option value="em_andamento">Em Andamento</option>
-                <option value="concluida">Concluída</option>
-            </select>
+        <div class="mb-3">
+            <label for="id_status" class="form-label">Status</label>
+            {{ form.status }}
+        </div>
+        <div class="mb-3">
+            <label for="id_responsavel" class="form-label">Responsável</label>
+            {{ form.responsavel }}
         </div>
         <button type="submit" class="btn btn-primary">Salvar</button>
-        <a href="{% url 'lista_tarefas' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}

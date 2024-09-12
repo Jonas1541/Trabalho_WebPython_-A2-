@@ -4,21 +4,16 @@ from django.contrib.auth import logout
 from django.http import HttpResponse
 from .models import Tarefa
 from .forms import TarefaForm
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Tarefa
-
 from django.template.loader import get_template
 from django.template import TemplateDoesNotExist
-
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
 from django.contrib.auth.models import User
 
 @login_required
 def lista_tarefas(request):
-    print("VRAUUUUUUUUUUUU: " + str(request.user))
     tarefas_pendentes = Tarefa.objects.filter(responsavel=request.user, status='pendente')
     tarefas_andamento = Tarefa.objects.filter(responsavel=request.user, status='andamento')
     tarefas_concluidas = Tarefa.objects.filter(responsavel=request.user, status='concluida')
@@ -33,25 +28,26 @@ def lista_tarefas(request):
 
 def criar_tarefa(request):
     if request.method == 'POST':
-        form = TarefaForm(request.POST)
+        form = TarefaForm(request.POST, user=request.user)
         if form.is_valid():
             tarefa = form.save(commit=False)
-            tarefa.responsavel = request.user
-            form.save()
+            tarefa.responsavel = form.cleaned_data['responsavel']
+            tarefa.save()
             return redirect('lista_tarefas')
     else:
-        form = TarefaForm()
+        form = TarefaForm(user=request.user)
     return render(request, 'tarefas/criar_tarefa.html', {'form': form})
 
 def editar_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
     if request.method == 'POST':
-        form = TarefaForm(request.POST, instance=tarefa)
+        form = TarefaForm(request.POST, instance=tarefa, user=request.user)
         if form.is_valid():
+            tarefa.responsavel = form.cleaned_data['responsavel']
             form.save()
             return redirect('lista_tarefas')
     else:
-        form = TarefaForm(instance=tarefa)
+        form = TarefaForm(instance=tarefa, user=request.user)
     return render(request, 'tarefas/editar_tarefa.html', {'form': form, 'tarefa': tarefa})
 
 def excluir_tarefa(request, pk):
@@ -72,7 +68,7 @@ def atualizar_status_tarefa(request):
         tarefa.save()
 
         return JsonResponse({'message': 'Status atualizado com sucesso!'})
-    
+
 def index(request):
     return render(request, 'index/index.html')
 
@@ -101,24 +97,21 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    # Obter parâmetros de filtro da URL
     nome = request.GET.get('nome', '')
     status = request.GET.get('status', '')
     usuario_id = request.GET.get('usuario', '')
-    
-    tarefas = Tarefa.objects.all()  # Obtém todas as tarefas
-    
+
+    tarefas = Tarefa.objects.all()
+
     if nome:
         tarefas = tarefas.filter(titulo__icontains=nome)
     if status:
         tarefas = tarefas.filter(status=status)
     if usuario_id:
         tarefas = tarefas.filter(responsavel_id=usuario_id)
-        
-    # Obter lista de usuários para o filtro
+
     usuarios = User.objects.all()
-    
-    # Contar o número de tarefas por status
+
     num_pendentes = tarefas.filter(status='pendente').count()
     num_andamento = tarefas.filter(status='andamento').count()
     num_concluidas = tarefas.filter(status='concluida').count()
@@ -135,4 +128,3 @@ def dashboard(request):
     }
 
     return render(request, 'dashboard/dashboard.html', context)
-

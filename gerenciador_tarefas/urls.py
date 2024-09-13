@@ -23,7 +23,7 @@ from tarefas import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-      path('tarefas/', include('tarefas.urls')),  # Incluindo as URLs do aplicativo tarefas
+      path('tarefas/', include('tarefas.urls')),
       path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', views.custom_logout, name='logout'),
     path('debug-logout-template/', views.debug_logout_template_path, name='debug_logout_template_path'),

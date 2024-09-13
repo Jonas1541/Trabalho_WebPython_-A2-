@@ -80,4 +80,4 @@ A aba de **ENTRAR** só aparece caso o usuario esteja deslogado.
 
 A aba de **SAIR** só aparece caso o usuario esteja logado.
 
-Para melhor visualização da aba **DASHBOARD**, cadastre alguns usuarios e atribua tarefas a ele, assim o gŕafico será populado bem como a tabela.
+Para melhor visualização da aba **DASHBOARD**, cadastre alguns usuarios e atribua tarefas a eles, assim o gŕafico será populado bem como a tabela.

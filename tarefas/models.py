@@ -7,7 +7,7 @@ class Tarefa(models.Model):
     descricao = models.TextField()
     STATUS_CHOICES = [
         ('pendente', 'Pendente'),
-        ('em_andamento', 'Em Andamento'),
+        ('andamento', 'Em Andamento'),
         ('concluida', 'Concluída'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')

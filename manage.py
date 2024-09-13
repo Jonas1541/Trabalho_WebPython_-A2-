@@ -15,8 +15,9 @@ def main():
         execute_from_command_line(sys.argv)
 
         # Executar o script de criação de banco de dados e criação de superusuário
-        if 'migrate' in sys.argv:
+        if 'makemigrations' in sys.argv:
             create_database_if_not_exists()
+        if 'migrate' in sys.argv:
             create_superuser()
             
     except ImportError as exc:

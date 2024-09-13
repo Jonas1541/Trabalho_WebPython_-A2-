@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gerenciador_tarefas_db',
         'USER': 'root',
-        'PASSWORD': 'kaio42root',
+        'PASSWORD': 'sua senha root aqui',
         'HOST': 'localhost',
         'PORT': '3306',
     }

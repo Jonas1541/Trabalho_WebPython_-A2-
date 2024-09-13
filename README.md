@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Tarefas 
 
-Este documento fornece as etapas necessárias para configurar e executar o sistema Django localmente incluindo a criação de um superusuário para acesso total.
+Este documento fornece as etapas necessárias para configurar e executar o sistema Django localmente incluindo a criação de um superuser para acesso total.
 
 ## Pré-requisitos
 
@@ -65,7 +65,10 @@ E depois de fato executar as migrations
 ```bash
 python manage.py migrate
 ```
-Ao rodar as migrações com o comando acima, um superusuário será criado automaticamente com as seguintes credenciais:
+
+**CASO UM ERRO ACONTEÇA AO RODAR ALGUM DESSES DOIS COMANDOS ACIMA, POR FAVOR CRIE MANUALMENTE UM BANCO DE DADOS MYSQL COM O NOME `gerenciador_tarefas_db` NO SEU LOCALHOST**
+
+Ao rodar as migrações com o comando acima, um superser será criado automaticamente com as seguintes credenciais:
 
 - **Usuário**: `admin`
 - **Email**: `admin@example.com`
@@ -74,6 +77,13 @@ Ao rodar as migrações com o comando acima, um superusuário será criado autom
 Você pode alterar essas credenciais no arquivo `create_superuser.py`, se necessário.
 
 ### 3. Uso do sistema
+
+Para subir o servidor do sistema, por favor, rode o comando abaixo:
+
+```bash
+python manage.py runserver
+```
+
 
 O sistema possui 2 abas principais, a de **MINHAS TAREFAS** e a de **DASHBOARD**(só visível caso o usuario seja um superuser), além dessas também temos a aba de **REGISTRO**(caso o usuario não esteja logado):
 

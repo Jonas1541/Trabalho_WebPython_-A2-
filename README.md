@@ -78,7 +78,7 @@ Você pode alterar essas credenciais no arquivo `create_superuser.py`, se necess
 
 ### 3. Uso do sistema
 
-Para subir o servidor do sistema, por favor, rode o comando abaixo:
+Para subir o servidor do sistema, por favor, rode o comando abaixo e realize o login com as credenciais acima:
 
 ```bash
 python manage.py runserver

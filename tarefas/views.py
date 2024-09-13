@@ -82,7 +82,7 @@ def debug_logout_template_path(request):
 
 def custom_logout(request):
     logout(request)
-    return render(request, 'registration/logged_out.html')
+    return render(request, 'registration/logged_out2.html')
 
 def register(request):
     if request.method == 'POST':

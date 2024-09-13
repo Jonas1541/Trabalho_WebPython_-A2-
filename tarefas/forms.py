@@ -11,10 +11,10 @@ class TarefaForm(forms.ModelForm):
             'descricao': forms.Textarea(attrs={'rows': 3}),
             'status': forms.Select(choices=[
                 ('pendente', 'Pendente'),
-                ('em_andamento', 'Em Andamento'),
+                ('andamento', 'Em Andamento'),
                 ('concluida', 'Concluída')
             ]),
-            'responsavel': forms.Select(),  # Campo para selecionar o responsável
+            'responsavel': forms.Select(),
         }
 
     def __init__(self, *args, **kwargs):

@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tarefa',
             name='status',
-            field=models.CharField(choices=[('pendente', 'Pendente'), ('em_andamento', 'Em Andamento'), ('concluida', 'Concluída')], default='pendente', max_length=20),
+            field=models.CharField(choices=[('pendente', 'Pendente'), ('andamento', 'Em Andamento'), ('concluida', 'Concluída')], default='pendente', max_length=20),
         ),
     ]

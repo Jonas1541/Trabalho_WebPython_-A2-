@@ -12,7 +12,10 @@ Antes de iniciar, certifique-se de ter os seguintes softwares instalados:
 - Virtualenv (opcional, mas recomendado)
 - MySQL pois é o banco de dados usado para esse projeto
 
-## Passos para configurar o ambiente
+
+### 0. Crie seu ambiente virtual(se optar por um)
+
+Para o desenvolvimento deste projeto usamos ambientes virtuais, portanto é recomendado que você também use. 
 
 ### 1. Clonar o Repositório
 
@@ -33,7 +36,7 @@ pip install django
 Após isso também é necessário instalar as biblioteca de mysql necessárias:
 
 ```bash
-pip install myslqclient
+pip install mysqlclient
 pip install pymysql
 ```
 
@@ -68,7 +71,7 @@ Ao rodar as migrações com o comando acima, um superusuário será criado autom
 - **Email**: `admin@example.com`
 - **Senha**: `admin123`
 
-Você pode alterar essas credenciais no arquivo `manage.py`, se necessário.
+Você pode alterar essas credenciais no arquivo `create_superuser.py`, se necessário.
 
 ### 3. Uso do sistema
 

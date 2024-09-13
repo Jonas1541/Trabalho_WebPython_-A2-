@@ -72,12 +72,26 @@ Você pode alterar essas credenciais no arquivo `manage.py`, se necessário.
 
 ### 3. Uso do sistema
 
-O sistema possui 2 abas principais, a de **MINHAS TAREFAS** e a de **DASHBOARD**(só visível caso o usuario seja um superuser), além dessas também temos a aba de **REGISTRO**(caso o usuario não esteja logado).
+O sistema possui 2 abas principais, a de **MINHAS TAREFAS** e a de **DASHBOARD**(só visível caso o usuario seja um superuser), além dessas também temos a aba de **REGISTRO**(caso o usuario não esteja logado):
 
-A aba **REGISTRO** só realiza cadastro de usuarios padrões(não superusers).
+![Todas as Abas](imgs/all_tabs.png)
 
-A aba de **ENTRAR** só aparece caso o usuario esteja deslogado.
+A aba **MINHAS TAREFAS** exibe apenas as tarefas do usuario logado, para ver todas as tarefas é necessário entrar como superuser e acessar a aba **DASHBOARD**:
 
-A aba de **SAIR** só aparece caso o usuario esteja logado.
+![Aba de tarefas](imgs/tab_my_tasks.png)
 
-Para melhor visualização da aba **DASHBOARD**, cadastre alguns usuarios e atribua tarefas a eles, assim o gŕafico será populado bem como a tabela.
+A aba **REGISTRO** só realiza cadastro de usuarios padrões(não superusers):
+
+![Aba de Registro](imgs/tab_register.png)
+
+A aba de **ENTRAR** só aparece caso o usuario esteja deslogado:
+
+![Aba de Login](imgs/tab_login.png)
+
+A aba de **SAIR** só aparece caso o usuario esteja logado:
+
+![Aba de logout](imgs/tab_logout.png)
+
+Para melhor visualização da aba **DASHBOARD**, cadastre alguns usuarios e atribua tarefas a eles, assim o gŕafico será populado bem como a tabela:
+
+![Aba de Dashboard](imgs/tab_dashboard.png)
